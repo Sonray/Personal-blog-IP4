@@ -20,10 +20,10 @@
             <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <p class="mr-2">{{ post.author }}</p>
+                        <p class="mr-2 btn btn-warning">{{ post.author }}</p>
                         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
                     </div>
-                    <h2><a class="article-title" href="{{url_for('main.post', post_id=post.id)}}">{{ post.title }}</a></h2>
+                    <h2><a class="article-title btn btn-primary" href="{{url_for('main.post', post_id=post.id)}}">{{ post.title }}</a></h2>
                     <p class="article-content">{{ post.content }}</p>
                 </div>
             </article>

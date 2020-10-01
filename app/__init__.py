@@ -1,44 +1,57 @@
+
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_mail import Mail
-from config import config_options
+from flask_simplemde import SimpleMDE
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-# Instances of flask extensions
-# Instance of LoginManger and using its methods
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+from config import config_options
+from flask_mail import Mail
+from flask_bootstrap import Bootstrap
+from flask_simplemde import SimpleMDE
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
+
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.session_protection = 'strong'
+login_manager.login_message_category = 'info'
 mail = Mail()
+simple = SimpleMDE()
+admin = Admin()
+bootstrap = Bootstrap()
+bootstrap = Bootstrap()
+
+
 
 
 def create_app(config_name):
-    """
-    Function that takes configuration setting key as an argument
-    Args:
-        config_name : name of the configuration to be used
-    """
+     app = Flask(__name__)
 
-    # Initialising application
-    app = Flask(__name__)
+     app.config.from_object(config_options[config_name])
+     #Initializing Flask Extensions
+     bootstrap.init_app(app)
+     db.init_app(app)
+     login_manager.init_app(app)
+     mail.init_app(app)
+     simple.init_app(app)
+     admin.init_app(app)
 
-    # Creating the app configurations
-    app.config.from_object(config_options[config_name])
+     from app.auth.views import auth
+     app.register_blueprint(auth)
 
-    # Initialising flask extensions
-    bootstrap.init_app(app)
-    db.init_app(app)
-    login_manager.init_app(app)
-    mail.init_app(app)
+     from app.main.views import main
+     app.register_blueprint(main)
 
-    # Regestering the main blueprint
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+     # from .main import main as main_blueprint
+     # app.register_blueprint(main_blueprint)
 
-    # Regestering the auth bluprint
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/')
+     # from .auth import auth as auth_blueprint
+     # app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
 
-    return app
+     return app

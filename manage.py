@@ -1,16 +1,15 @@
 # Import db from app factory
-from app import create_app, db
+from app import create_app, db, admin
 from flask_script import Manager, Server
-
-# Connect to models
-from app.models import User, Post
-# Set up migrations
 from flask_migrate import Migrate, MigrateCommand
+from flask_admin.contrib.sqla import ModelView
+from app.models import User,Post, Subscription, Comments
 
 # Creating app instance
 # app = create_app('test')
 # app = create_app('development')
 app = create_app('production')
+app = create_app('development')
 
 
 # Create manager instance 
@@ -23,6 +22,11 @@ manager.add_command('server', Server)
 
 manager.add_command('db', MigrateCommand)
 
+
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Post, db.session))
+admin.add_view(ModelView(Subscription, db.session))
+admin.add_view(ModelView(Comments, db.session))
 
 @manager.command
 def test():

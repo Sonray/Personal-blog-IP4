@@ -19,11 +19,11 @@
                 <li><a href="/">Home</a></li>
             </ul>
              <ul class="nav navbar-nav">
-                <li><a href="/about">About</a></li>
+                <li><a href="{{url_for('main.about')}}">About</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                {% if current_user.username == 'Keith Mzaza' %}
+                {% if current_user.username == 'davidokwacha' %}
                 <li><a href="{{url_for('main.new_post')}}">Post</a> </li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
