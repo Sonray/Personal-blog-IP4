@@ -9,6 +9,7 @@ News app allows people to sign up and post their blogs and give upvotes and down
 https://github.com/Sonray/Personal-blog-IP4.git
 
 #### live link
+https://pure-coast-90922.herokuapp.com/ 
 
 ## About Author
 Author's name is David Okwacha
